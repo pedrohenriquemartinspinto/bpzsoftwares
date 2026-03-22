@@ -206,12 +206,25 @@
             box-shadow: 0 25px 40px -12px rgba(0,0,0,0.6);
             background: rgba(20, 20, 35, 0.85);
         }
-        .card-img {
+        .card-img-wrapper {
             width: 100%;
             height: 190px;
-            object-fit: cover;
             border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: linear-gradient(145deg, #1E1E2E, #13131F);
+        }
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .card-img-wrapper:hover .card-img {
+            transform: scale(1.05);
         }
         .card-icon {
             font-size: 2.8rem;
@@ -321,115 +334,134 @@
         }
         .close-modal:hover { color: #F43F5E; }
         
-        /* CUSTOM VIDEO PLAYER - MODERNO E PROFISSIONAL */
-        .custom-video-wrapper {
+        /* Video Container para YouTube */
+        .video-container {
             margin: 1.5rem 0;
             border-radius: 28px;
             overflow: hidden;
             background: #000000;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .custom-video {
             width: 100%;
-            display: block;
-            cursor: pointer;
+            aspect-ratio: 16 / 9;
         }
-        .video-controls {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.85));
-            padding: 12px 16px;
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 24px;
+        }
+        
+        /* Modal de imagem ampliada */
+        .image-modal {
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+        }
+        .image-modal .modal-content {
+            background: transparent;
+            padding: 1rem;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            box-shadow: none;
+        }
+        .full-image {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+        
+        /* Toast Notification System */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .toast {
+            min-width: 320px;
+            max-width: 400px;
+            background: rgba(20, 20, 35, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 1rem 1.2rem;
             display: flex;
             align-items: center;
             gap: 12px;
-            backdrop-filter: blur(8px);
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-left: 4px solid;
+            animation: toastSlideIn 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transform: translateX(0);
         }
-        .custom-video-wrapper:hover .video-controls {
-            transform: translateY(0);
+        .toast.toast-exit {
+            animation: toastSlideOut 0.3s ease forwards;
         }
-        .video-controls button {
-            background: rgba(255,255,255,0.15);
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .toast-success {
+            border-left-color: #10B981;
         }
-        .video-controls button:hover {
-            background: rgba(139, 92, 246, 0.8);
-            transform: scale(1.05);
+        .toast-error {
+            border-left-color: #EF4444;
         }
-        .progress-bar {
+        .toast-info {
+            border-left-color: #6366F1;
+        }
+        .toast-warning {
+            border-left-color: #F59E0B;
+        }
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+        .toast-success .toast-icon { color: #10B981; }
+        .toast-error .toast-icon { color: #EF4444; }
+        .toast-info .toast-icon { color: #6366F1; }
+        .toast-warning .toast-icon { color: #F59E0B; }
+        .toast-content {
             flex: 1;
-            height: 5px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 5px;
-            cursor: pointer;
-            position: relative;
         }
-        .progress-filled {
-            height: 100%;
-            background: linear-gradient(90deg, #6366F1, #A855F7);
-            border-radius: 5px;
-            width: 0%;
-            position: relative;
+        .toast-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
         }
-        .time-display {
+        .toast-message {
             font-size: 0.8rem;
-            color: white;
-            font-family: monospace;
-            min-width: 100px;
+            color: #CBD5E1;
+            line-height: 1.4;
         }
-        .volume-control {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .volume-slider {
-            width: 70px;
-            height: 4px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 4px;
+        .toast-close {
             cursor: pointer;
-            position: relative;
+            color: #94A3B8;
+            font-size: 1rem;
+            transition: 0.2s;
         }
-        .volume-filled {
-            height: 100%;
-            background: #A855F7;
-            border-radius: 4px;
-            width: 80%;
+        .toast-close:hover {
+            color: #F1F5F9;
         }
-        .fullscreen-btn {
-            background: rgba(255,255,255,0.15);
+        @keyframes toastSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
-        @media (max-width: 600px) {
-            .video-controls {
-                padding: 8px 12px;
-                gap: 8px;
+        @keyframes toastSlideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
             }
-            .video-controls button {
-                width: 28px;
-                height: 28px;
-                font-size: 0.9rem;
-            }
-            .time-display {
-                font-size: 0.7rem;
-                min-width: 80px;
-            }
-            .volume-control {
-                display: none;
+            to {
+                opacity: 0;
+                transform: translateX(100px);
             }
         }
         
@@ -605,6 +637,15 @@
             .card-buttons {
                 flex-direction: column;
             }
+            .toast-container {
+                left: 20px;
+                right: 20px;
+                bottom: 20px;
+            }
+            .toast {
+                min-width: auto;
+                width: 100%;
+            }
         }
         .empty-state {
             text-align: center;
@@ -670,7 +711,7 @@
             <div class="contact-grid reveal">
                 <div class="contact-card"><i class="fab fa-whatsapp"></i><h3>WhatsApp</h3><a href="https://wa.me/5566999362009" target="_blank"><i class="fab fa-whatsapp"></i> (66) 99936-2009</a></div>
                 <div class="contact-card"><i class="far fa-envelope"></i><h3>E-mail comercial</h3><a href="mailto:pedrohenriquemartinspinto1@gmail.com"><i class="far fa-paper-plane"></i> enviar mensagem</a></div>
-                <div class="contact-card"><i class="fab fa-github"></i><h3>GitHub</h3><a href="https://github.com/bpzsoftwares" target="_blank"><i class="fab fa-github"></i> /bpzsoftwares</a></div>
+                <div class="contact-card"><i class="fab fa-github"></i><h3>GitHub</h3><a href="https://pedrohenriquemartinspinto.github.io/bpzsoftwares/" target="_blank"><i class="fab fa-github"></i> /bpzsoftwares</a></div>
             </div>
             <div class="info-message reveal">
                 <i class="fas fa-shield-heart"></i> Após a finalização da compra, entre em contato via WhatsApp ou e-mail para ativação imediata e onboarding personalizado.
@@ -681,7 +722,10 @@
         <p><i class="far fa-copyright"></i> 2025 BpzSoftwares — Tecnologia de ponta para negócios visionários</p>
     </footer>
 
-    <!-- Modal Detalhes com Player Personalizado -->
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Modal Detalhes com suporte a YouTube -->
     <div id="detailModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -689,29 +733,13 @@
                 <i class="fas fa-xmark close-modal" onclick="closeDetailModal()"></i>
             </div>
             <p id="modalFullDesc" style="line-height: 1.5; margin: 0.5rem 0;"></p>
-            <div id="customPlayerContainer" class="custom-video-wrapper">
-                <video id="customVideo" class="custom-video" src="">
-                    Seu navegador não suporta vídeo.
-                </video>
-                <div class="video-controls">
-                    <button id="playPauseBtn" class="control-btn"><i class="fas fa-play"></i></button>
-                    <div class="progress-bar" id="progressBar">
-                        <div class="progress-filled" id="progressFilled"></div>
-                    </div>
-                    <div class="time-display" id="timeDisplay">00:00 / 00:00</div>
-                    <div class="volume-control">
-                        <button id="volumeBtn" class="control-btn"><i class="fas fa-volume-up"></i></button>
-                        <div class="volume-slider" id="volumeSlider">
-                            <div class="volume-filled" id="volumeFilled"></div>
-                        </div>
-                    </div>
-                    <button id="fullscreenBtn" class="fullscreen-btn"><i class="fas fa-expand"></i></button>
-                </div>
+            <div id="videoContainer" class="video-container">
+                <!-- Iframe do YouTube será inserido aqui -->
             </div>
         </div>
     </div>
 
-    <!-- Modal Pagamento -->
+    <!-- Modal de Pagamento -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -729,10 +757,80 @@
         </div>
     </div>
 
+    <!-- Modal para visualização de imagem ampliada -->
+    <div id="imageModal" class="modal image-modal">
+        <div class="modal-content" style="background: transparent;">
+            <i class="fas fa-xmark close-modal" style="position: absolute; top: 20px; right: 30px; font-size: 2rem; z-index: 2100; color: white; cursor: pointer;" onclick="closeImageModal()"></i>
+            <img id="fullImage" class="full-image" src="" alt="Imagem ampliada">
+        </div>
+    </div>
+
     <script>
+        // Toast Notification System
+        function showToast(title, message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            let icon = '';
+            switch(type) {
+                case 'success': icon = 'fas fa-check-circle'; break;
+                case 'error': icon = 'fas fa-exclamation-circle'; break;
+                case 'warning': icon = 'fas fa-exclamation-triangle'; break;
+                default: icon = 'fas fa-info-circle';
+            }
+            
+            toast.innerHTML = `
+                <div class="toast-icon"><i class="${icon}"></i></div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <div class="toast-close"><i class="fas fa-times"></i></div>
+            `;
+            
+            container.appendChild(toast);
+            
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => {
+                removeToast(toast);
+            });
+            
+            setTimeout(() => {
+                removeToast(toast);
+            }, 4000);
+        }
+        
+        function removeToast(toast) {
+            toast.classList.add('toast-exit');
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }
+        
         const systems = [
-            { id: 1, title: "PsyControl", shortDesc: "Transforme a gestão da sua clínica com o PsyControl: mais rapidez, mais facilidade. – BpzSoftwares", fullDesc: "O PsyControl é um sistema completo de gestão para clínicas e profissionais da saúde, desenvolvido para tornar o dia a dia mais organizado, eficiente e produtivo por meio de uma plataforma moderna, intuitiva e totalmente integrada, permitindo o controle de pacientes com cadastro detalhado, classificação entre ativos e inativos e histórico completo de atendimentos, além de oferecer um gerenciamento de consultas com agendamento rápido, visualização da agenda, acompanhamento de atendimentos diários e relatórios mensais, contando também com prontuários digitais seguros e personalizáveis por meio de templates, facilitando o registro e a consulta de informações clínicas, bem como a gestão de profissionais para clínicas com equipes, organizando atendimentos e responsabilidades em um único ambiente, somado a um módulo financeiro inteligente que possibilita o controle de receitas, despesas e cálculo automático do lucro, com visualização clara através de um dashboard completo que reúne indicadores, gráficos e resumos operacionais em tempo real, além de recursos para criação de templates de documentos como prontuários e notas fiscais, garantindo padronização e agilidade nos processos administrativos, tudo isso com foco em simplicidade, praticidade e economia de tempo, sendo a solução ideal para quem deseja profissionalizar a gestão e focar no atendimento aos pacientes, com acesso facilitado e suporte à tomada de decisões, disponível por um custo acessível de apenas R$ 50,00 mensais.", image: "psycontrol.jpeg", icon: "fa-solid fa-brain", videoUrl: "https://www.youtube.com/embed/U38NpRTVA8w?si=QTsvjIX8jX3KENin", paymentLink: "https://pag.flowgest.com/checkout-bpz" },
-            { id: 2, title: "Em breve", shortDesc: "Em breve", fullDesc: "Em breve", image: "https://gifmania.com.br/wp-content/uploads/2020/01/em_breve_novidades.gif", icon: "fas fa-heart-pulse", videoUrl: "https://www.w3schools.com/html/movie.mp4", paymentLink: "https://checkout.medisync.com/premium" },
+            { 
+                id: 1, 
+                title: "PsyControl", 
+                shortDesc: "Transforme a gestão da sua clínica com o PsyControl: mais rapidez, mais facilidade.", 
+                fullDesc: "O PsyControl é um sistema completo de gestão para clínicas e profissionais da saúde, desenvolvido para tornar o dia a dia mais organizado, eficiente e produtivo por meio de uma plataforma moderna, intuitiva e totalmente integrada, permitindo o controle de pacientes com cadastro detalhado, classificação entre ativos e inativos e histórico completo de atendimentos, além de oferecer um gerenciamento de consultas com agendamento rápido, visualização da agenda, acompanhamento de atendimentos diários e relatórios mensais, contando também com prontuários digitais seguros e personalizáveis por meio de templates, facilitando o registro e a consulta de informações clínicas, bem como a gestão de profissionais para clínicas com equipes, organizando atendimentos e responsabilidades em um único ambiente, somado a um módulo financeiro inteligente que possibilita o controle de receitas, despesas e cálculo automático do lucro, com visualização clara através de um dashboard completo que reúne indicadores, gráficos e resumos operacionais em tempo real, além de recursos para criação de templates de documentos como prontuários e notas fiscais, garantindo padronização e agilidade nos processos administrativos, tudo isso com foco em simplicidade, praticidade e economia de tempo, sendo a solução ideal para quem deseja profissionalizar a gestão e focar no atendimento aos pacientes, com acesso facilitado e suporte à tomada de decisões, disponível por um custo acessível de apenas R$ 50,00 mensais.", 
+                image: "psycontrol.jpeg", 
+                icon: "fas fa-brain", 
+                videoUrl: "https://www.youtube.com/embed/U38NpRTVA8w", 
+                videoType: "youtube", 
+                paymentLink: "https://buy.stripe.com/7sYeV6cF3enFbl7gLR2Ry00" 
+            },
+            { 
+                id: 2, 
+                title: "Em breve", 
+                shortDesc: "Novo software revolucionário em desenvolvimento", 
+                fullDesc: "Estamos trabalhando em um novo software revolucionário que irá transformar a forma como você gerencia seu negócio. Fique atento para novidades em breve! Lançamento previsto para o próximo trimestre.", 
+                image: "https://gifmania.com.br/wp-content/uploads/2020/01/em_breve_novidades.gif", 
+                icon: "fas fa-clock", 
+                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
+                videoType: "youtube", 
+                paymentLink: "#" 
+            }
         ];
 
         const faqData = [
@@ -742,94 +840,19 @@
             { q: "Suporte e atualizações estão inclusos?", a: "Sim, planos anuais e mensais incluem suporte premium e atualizações contínuas de funcionalidades e segurança.", icon: "fas fa-headset" }
         ];
 
-        let currentVideoElement = null;
-        let currentVideoControls = null;
-
-        function initCustomPlayer(videoUrl) {
-            const container = document.getElementById('customPlayerContainer');
-            const video = document.getElementById('customVideo');
-            video.src = videoUrl;
-            video.load();
-            
-            const playPauseBtn = document.getElementById('playPauseBtn');
-            const progressBar = document.getElementById('progressBar');
-            const progressFilled = document.getElementById('progressFilled');
-            const timeDisplay = document.getElementById('timeDisplay');
-            const volumeBtn = document.getElementById('volumeBtn');
-            const volumeSlider = document.getElementById('volumeSlider');
-            const volumeFilled = document.getElementById('volumeFilled');
-            const fullscreenBtn = document.getElementById('fullscreenBtn');
-            
-            function updatePlayButton() {
-                if(video.paused) {
-                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                } else {
-                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                }
-            }
-            
-            function formatTime(seconds) {
-                const mins = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            }
-            
-            function updateProgress() {
-                if(video.duration) {
-                    const percent = (video.currentTime / video.duration) * 100;
-                    progressFilled.style.width = percent + '%';
-                    timeDisplay.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
-                }
-            }
-            
-            function setVolume(volume) {
-                video.volume = volume;
-                volumeFilled.style.width = (volume * 100) + '%';
-                if(volume === 0) volumeBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                else if(volume < 0.5) volumeBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
-                else volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-            }
-            
-            playPauseBtn.addEventListener('click', () => {
-                if(video.paused) video.play();
-                else video.pause();
-                updatePlayButton();
-            });
-            
-            video.addEventListener('play', updatePlayButton);
-            video.addEventListener('pause', updatePlayButton);
-            video.addEventListener('timeupdate', updateProgress);
-            video.addEventListener('loadedmetadata', () => {
-                timeDisplay.textContent = `00:00 / ${formatTime(video.duration)}`;
-                setVolume(0.8);
-            });
-            
-            progressBar.addEventListener('click', (e) => {
-                const rect = progressBar.getBoundingClientRect();
-                const pos = (e.clientX - rect.left) / rect.width;
-                video.currentTime = pos * video.duration;
-            });
-            
-            volumeSlider.addEventListener('click', (e) => {
-                const rect = volumeSlider.getBoundingClientRect();
-                const pos = (e.clientX - rect.left) / rect.width;
-                setVolume(Math.min(1, Math.max(0, pos)));
-            });
-            
-            volumeBtn.addEventListener('click', () => {
-                if(video.volume > 0) setVolume(0);
-                else setVolume(0.8);
-            });
-            
-            fullscreenBtn.addEventListener('click', () => {
-                if(container.requestFullscreen) container.requestFullscreen();
-                else if(container.webkitRequestFullscreen) container.webkitRequestFullscreen();
-            });
-            
-            setVolume(0.8);
-            currentVideoElement = video;
+        function openImageModal(imageUrl) {
+            const modal = document.getElementById('imageModal');
+            const img = document.getElementById('fullImage');
+            img.src = imageUrl;
+            modal.style.display = 'flex';
         }
-        
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            document.getElementById('fullImage').src = '';
+        }
+
         function renderSystems() {
             const container = document.getElementById('systemsContainer');
             if(!container) return;
@@ -838,7 +861,9 @@
                 const card = document.createElement('div');
                 card.className = 'system-card reveal';
                 card.innerHTML = `
-                    <img class="card-img" src="${sys.image}" alt="${sys.title}" loading="lazy">
+                    <div class="card-img-wrapper" onclick="openImageModal('${sys.image}')">
+                        <img class="card-img" src="${sys.image}" alt="${sys.title}" loading="lazy">
+                    </div>
                     <div class="card-icon"><i class="${sys.icon}"></i></div>
                     <div class="card-title">${sys.title}</div>
                     <div class="card-desc">${sys.shortDesc}</div>
@@ -883,15 +908,33 @@
         function openDetailModal(system) {
             document.getElementById('modalTitle').innerText = system.title;
             document.getElementById('modalFullDesc').innerText = system.fullDesc;
-            initCustomPlayer(system.videoUrl);
+            
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.innerHTML = '';
+            
+            const iframe = document.createElement('iframe');
+            let videoUrl = system.videoUrl;
+            
+            if (videoUrl.includes('youtube.com/watch')) {
+                const videoId = videoUrl.split('v=')[1]?.split('&')[0];
+                if (videoId) videoUrl = `https://www.youtube.com/embed/${videoId}`;
+            } else if (videoUrl.includes('youtu.be/')) {
+                const videoId = videoUrl.split('youtu.be/')[1]?.split('?')[0];
+                if (videoId) videoUrl = `https://www.youtube.com/embed/${videoId}`;
+            }
+            
+            iframe.src = videoUrl + "?autoplay=0&rel=0&modestbranding=1&controls=1&showinfo=0&color=white&iv_load_policy=3";
+            iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+            iframe.allowFullscreen = true;
+            iframe.title = system.title;
+            videoContainer.appendChild(iframe);
+            
             document.getElementById('detailModal').style.display = 'flex';
         }
         
         function closeDetailModal() {
-            if(currentVideoElement) {
-                currentVideoElement.pause();
-                currentVideoElement.src = '';
-            }
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.innerHTML = '';
             document.getElementById('detailModal').style.display = 'none';
         }
         
@@ -947,12 +990,24 @@
                 const nome = document.getElementById('fullName').value.trim();
                 const cpf = document.getElementById('cpf').value.trim();
                 const email = document.getElementById('email').value.trim();
-                if(!nome || !cpf || !email) { alert("Por favor, preencha todos os campos."); return; }
-                if(cpf.length < 11 || isNaN(cpf)) { alert("CPF inválido. Digite apenas números com 11 dígitos."); return; }
-                if(selectedPaymentSystem && selectedPaymentSystem.paymentLink) {
-                    window.open(selectedPaymentSystem.paymentLink, '_blank');
-                    closePaymentModal();
-                } else { alert("Link de pagamento temporariamente indisponível. Entre em contato pelo WhatsApp."); }
+                
+                if(!nome || !cpf || !email) {
+                    showToast('Campos incompletos', 'Por favor, preencha todos os campos.', 'warning');
+                    return;
+                }
+                if(cpf.length < 11 || isNaN(cpf)) {
+                    showToast('CPF inválido', 'Digite apenas números com 11 dígitos.', 'error');
+                    return;
+                }
+                if(selectedPaymentSystem && selectedPaymentSystem.paymentLink && selectedPaymentSystem.paymentLink !== "#") {
+                    showToast('Redirecionando', `Você será redirecionado para o pagamento do ${selectedPaymentSystem.title}.`, 'success');
+                    setTimeout(() => {
+                        window.open(selectedPaymentSystem.paymentLink, '_blank');
+                        closePaymentModal();
+                    }, 1000);
+                } else {
+                    showToast('Link indisponível', 'Entre em contato pelo WhatsApp para finalizar a compra.', 'info');
+                }
             });
         }
         
@@ -973,8 +1028,10 @@
         window.onclick = function(event) {
             const modalDetail = document.getElementById('detailModal');
             const modalPay = document.getElementById('paymentModal');
+            const modalImage = document.getElementById('imageModal');
             if (event.target === modalDetail) closeDetailModal();
             if (event.target === modalPay) closePaymentModal();
+            if (event.target === modalImage) closeImageModal();
         }
         
         document.addEventListener('DOMContentLoaded', function() {
@@ -985,6 +1042,11 @@
             navLinks.forEach(link => {
                 link.addEventListener('click', () => { navLinksMenu.classList.remove('show'); });
             });
+            
+            // Mensagem de boas-vindas suave
+            setTimeout(() => {
+                showToast('Bem-vindo à BpzSoftwares', 'Explore nossos sistemas e encontre a solução ideal para seu negócio.', 'info');
+            }, 1000);
         });
     </script>
 </body>
